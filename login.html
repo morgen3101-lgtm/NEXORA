@@ -1,1 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>NEXORA - Login</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #f3f5f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 400px;
+    max-width: 90%;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+}
+
+.logo {
+    text-align: center;
+    color: #5b5cf0;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    background: #5b5cf0;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.signup {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+}
+
+.signup a {
+    color: #5b5cf0;
+    text-decoration: none;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">NEXORA</div>
+
+    <h2>Log In</h2>
+
+    <form onsubmit="login(event)">
+
+        <input
+            type="email"
+            placeholder="Email"
+            required
+        >
+
+        <input
+            type="password"
+            placeholder="Password"
+            required
+        >
+
+        <button type="submit">
+            Log In
+        </button>
+
+    </form>
+
+    <div class="signup">
+        Don't have an account?
+        <a href="signup.html">Create Account</a>
+    </div>
+
+</div>
+
+<script>
+function login(event) {
+
+    event.preventDefault();
+
+    alert("Login successful!");
+
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>
