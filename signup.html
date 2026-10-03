@@ -6,6 +6,8 @@
 
 <title>NEXORA - Sign Up</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 
 * {
@@ -17,6 +19,7 @@ body {
     margin: 0;
     min-height: 100vh;
     background: #f3f5f9;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,33 +28,49 @@ body {
 .card {
     width: 390px;
     max-width: 90%;
+
     background: white;
+
     padding: 35px;
+
     border-radius: 20px;
+
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
 .logo {
     text-align: center;
+
     color: #5b5cf0;
+
     font-size: 32px;
+
     font-weight: bold;
+
     margin-bottom: 8px;
 }
 
 .subtitle {
     text-align: center;
+
     color: #777;
+
     margin-bottom: 25px;
 }
 
 input {
     width: 100%;
+
     padding: 13px;
+
     margin-bottom: 14px;
+
     border: 1px solid #ddd;
+
     border-radius: 10px;
+
     font-size: 15px;
+
     outline: none;
 }
 
@@ -61,37 +80,58 @@ input:focus {
 
 button {
     width: 100%;
+
     padding: 13px;
+
     border: none;
+
     border-radius: 10px;
+
     background: #5b5cf0;
+
     color: white;
+
     font-size: 15px;
+
     font-weight: bold;
+
     cursor: pointer;
+}
+
+button:hover {
+    background: #4b4ce0;
 }
 
 button:disabled {
     opacity: 0.6;
+
     cursor: not-allowed;
+}
+
+.message {
+    text-align: center;
+
+    margin-top: 15px;
+
+    font-size: 14px;
+
+    min-height: 20px;
 }
 
 .login {
     text-align: center;
+
     margin-top: 20px;
+
     color: #777;
 }
 
 .login a {
     color: #5b5cf0;
-    font-weight: bold;
-    text-decoration: none;
-}
 
-#message {
-    text-align: center;
-    margin-top: 15px;
-    line-height: 1.5;
+    font-weight: bold;
+
+    text-decoration: none;
 }
 
 </style>
@@ -101,49 +141,53 @@ button:disabled {
 
 <div class="card">
 
-    <div class="logo">NEXORA</div>
+    <div class="logo">
+        NEXORA
+    </div>
 
     <div class="subtitle">
         Create your account
     </div>
 
-    <form id="signupForm">
+    <input
+        type="text"
+        id="fullName"
+        placeholder="Full Name"
+        autocomplete="name"
+    >
 
-        <input
-            type="text"
-            id="fullName"
-            placeholder="Full Name"
-            required
-        >
+    <input
+        type="email"
+        id="email"
+        placeholder="Email"
+        autocomplete="email"
+    >
 
-        <input
-            type="email"
-            id="email"
-            placeholder="Email"
-            required
-        >
+    <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        autocomplete="new-password"
+    >
 
-        <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            required
-        >
+    <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm Password"
+        autocomplete="new-password"
+    >
 
-        <input
-            type="password"
-            id="confirmPassword"
-            placeholder="Confirm Password"
-            required
-        >
+    <button
+        type="button"
+        id="signupButton"
+    >
+        Create Account
+    </button>
 
-        <button type="submit" id="signupButton">
-            Create Account
-        </button>
-
-    </form>
-
-    <div id="message"></div>
+    <div
+        class="message"
+        id="message"
+    ></div>
 
     <div class="login">
         Already have an account?
@@ -153,151 +197,228 @@ button:disabled {
 </div>
 
 
-<!-- Supabase -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
 
+// ===============================
+// SUPABASE CONFIGURATION
+// ===============================
+
 const SUPABASE_URL =
-"https://jlpfjutsnetxtjkqzzyo.supabase.co";
+    "https://jlpfjutsnetxtjkqzzyo.supabase.co";
 
 const SUPABASE_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpscGZqdXRzbmV0eHRqa3plenlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwNTMwOTAsImV4cCI6MjEwNjYyOTA5MH0.LcxrXD1fjBNs9jpXOyzzQ5kixqJi2WI7RH0IndHyfWE";
-
-const supabase =
-window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpscGZqdXRzbmV0eHRqa3plenlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwNTMwOTAsImV4cCI6MjEwNjYyOTA5MH0.LcxrXD1fjBNs9jpXOyzzQ5kixqJi2WI7RH0IndHyfWE";
 
 
-const form =
-document.getElementById("signupForm");
+// ===============================
+// CONNECT TO SUPABASE
+// ===============================
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+// ===============================
+// ELEMENTS
+// ===============================
+
+const fullNameInput =
+    document.getElementById("fullName");
+
+const emailInput =
+    document.getElementById("email");
+
+const passwordInput =
+    document.getElementById("password");
+
+const confirmPasswordInput =
+    document.getElementById("confirmPassword");
+
+const signupButton =
+    document.getElementById("signupButton");
 
 const message =
-document.getElementById("message");
-
-const button =
-document.getElementById("signupButton");
+    document.getElementById("message");
 
 
-form.addEventListener("submit", async function(event) {
+// ===============================
+// SIGN UP
+// ===============================
 
-    event.preventDefault();
-
+signupButton.addEventListener("click", async function () {
 
     const fullName =
-    document.getElementById("fullName")
-    .value.trim();
+        fullNameInput.value.trim();
 
     const email =
-    document.getElementById("email")
-    .value.trim();
+        emailInput.value.trim();
 
     const password =
-    document.getElementById("password")
-    .value;
+        passwordInput.value;
 
     const confirmPassword =
-    document.getElementById("confirmPassword")
-    .value;
+        confirmPasswordInput.value;
 
 
-    // التحقق من الاسم
+    // Clear old message
 
-    if (!fullName) {
+    message.textContent = "";
+
+
+    // Check Full Name
+
+    if (fullName === "") {
 
         message.textContent =
-        "Please enter your full name.";
+            "Please enter your full name.";
+
+        message.style.color = "red";
 
         return;
     }
 
 
-    // التحقق من كلمة المرور
+    // Check Email
+
+    if (email === "") {
+
+        message.textContent =
+            "Please enter your email.";
+
+        message.style.color = "red";
+
+        return;
+    }
+
+
+    // Check Password
 
     if (password.length < 6) {
 
         message.textContent =
-        "Password must be at least 6 characters.";
+            "Password must be at least 6 characters.";
+
+        message.style.color = "red";
 
         return;
     }
 
 
-    // التحقق من تطابق كلمتي المرور
+    // Check Confirm Password
 
     if (password !== confirmPassword) {
 
         message.textContent =
-        "Passwords do not match.";
+            "Passwords do not match.";
+
+        message.style.color = "red";
 
         return;
     }
 
 
-    button.disabled = true;
+    // Disable button
 
-    message.textContent =
-    "Creating your account...";
+    signupButton.disabled = true;
+
+    signupButton.textContent =
+        "Creating Account...";
 
 
-    // إنشاء الحساب في Supabase
+    try {
 
-    const { data, error } =
-    await supabase.auth.signUp({
+        const { data, error } =
+            await supabaseClient.auth.signUp({
 
-        email: email,
+                email: email,
 
-        password: password,
+                password: password,
 
-        options: {
+                options: {
 
-            data: {
+                    data: {
 
-                full_name: fullName
+                        full_name: fullName
 
-            }
+                    }
+
+                }
+
+            });
+
+
+        // Supabase error
+
+        if (error) {
+
+            message.textContent =
+                error.message;
+
+            message.style.color = "red";
+
+            signupButton.disabled = false;
+
+            signupButton.textContent =
+                "Create Account";
+
+            return;
+        }
+
+
+        // Account created
+
+        message.textContent =
+            "Account created successfully!";
+
+        message.style.color = "green";
+
+
+        // If user is automatically logged in
+
+        if (data.session) {
+
+            setTimeout(function () {
+
+                window.location.href =
+                    "index.html";
+
+            }, 1000);
 
         }
 
-    });
+        // If email confirmation is required
+
+        else {
+
+            message.textContent =
+                "Account created! Check your email to confirm your account.";
+
+            message.style.color = "green";
+
+            signupButton.disabled = false;
+
+            signupButton.textContent =
+                "Create Account";
+
+        }
 
 
-    // في حالة وجود خطأ
+    } catch (error) {
 
-    if (error) {
-
-        button.disabled = false;
-
-        message.textContent =
-        error.message;
-
-        return;
-    }
-
-
-    // نجاح التسجيل
-
-    if (data.session) {
-
-        message.textContent =
-        "Account created successfully!";
-
-        setTimeout(function() {
-
-            window.location.href =
-            "index.html";
-
-        }, 1000);
-
-    } else {
-
-        button.disabled = false;
+        console.error(error);
 
         message.textContent =
-        "Account created! Please check your email to confirm your account.";
+            "Something went wrong. Please try again.";
+
+        message.style.color = "red";
+
+        signupButton.disabled = false;
+
+        signupButton.textContent =
+            "Create Account";
 
     }
 
