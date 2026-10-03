@@ -71,6 +71,11 @@ button {
     cursor: pointer;
 }
 
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .login {
     text-align: center;
     margin-top: 20px;
@@ -81,6 +86,12 @@ button {
     color: #5b5cf0;
     font-weight: bold;
     text-decoration: none;
+}
+
+#message {
+    text-align: center;
+    margin-top: 15px;
+    line-height: 1.5;
 }
 
 </style>
@@ -96,37 +107,43 @@ button {
         Create your account
     </div>
 
-    <form>
+    <form id="signupForm">
 
         <input
             type="text"
+            id="fullName"
             placeholder="Full Name"
             required
         >
 
         <input
             type="email"
+            id="email"
             placeholder="Email"
             required
         >
 
         <input
             type="password"
+            id="password"
             placeholder="Password"
             required
         >
 
         <input
             type="password"
+            id="confirmPassword"
             placeholder="Confirm Password"
             required
         >
 
-        <button type="submit">
+        <button type="submit" id="signupButton">
             Create Account
         </button>
 
     </form>
+
+    <div id="message"></div>
 
     <div class="login">
         Already have an account?
@@ -134,6 +151,159 @@ button {
     </div>
 
 </div>
-    
+
+
+<!-- Supabase -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+"https://jlpfjutsnetxtjkqzzyo.supabase.co";
+
+const SUPABASE_KEY =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpscGZqdXRzbmV0eHRqa3plenlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwNTMwOTAsImV4cCI6MjEwNjYyOTA5MH0.LcxrXD1fjBNs9jpXOyzzQ5kixqJi2WI7RH0IndHyfWE";
+
+const supabase =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+const form =
+document.getElementById("signupForm");
+
+const message =
+document.getElementById("message");
+
+const button =
+document.getElementById("signupButton");
+
+
+form.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+
+    const fullName =
+    document.getElementById("fullName")
+    .value.trim();
+
+    const email =
+    document.getElementById("email")
+    .value.trim();
+
+    const password =
+    document.getElementById("password")
+    .value;
+
+    const confirmPassword =
+    document.getElementById("confirmPassword")
+    .value;
+
+
+    // التحقق من الاسم
+
+    if (!fullName) {
+
+        message.textContent =
+        "Please enter your full name.";
+
+        return;
+    }
+
+
+    // التحقق من كلمة المرور
+
+    if (password.length < 6) {
+
+        message.textContent =
+        "Password must be at least 6 characters.";
+
+        return;
+    }
+
+
+    // التحقق من تطابق كلمتي المرور
+
+    if (password !== confirmPassword) {
+
+        message.textContent =
+        "Passwords do not match.";
+
+        return;
+    }
+
+
+    button.disabled = true;
+
+    message.textContent =
+    "Creating your account...";
+
+
+    // إنشاء الحساب في Supabase
+
+    const { data, error } =
+    await supabase.auth.signUp({
+
+        email: email,
+
+        password: password,
+
+        options: {
+
+            data: {
+
+                full_name: fullName
+
+            }
+
+        }
+
+    });
+
+
+    // في حالة وجود خطأ
+
+    if (error) {
+
+        button.disabled = false;
+
+        message.textContent =
+        error.message;
+
+        return;
+    }
+
+
+    // نجاح التسجيل
+
+    if (data.session) {
+
+        message.textContent =
+        "Account created successfully!";
+
+        setTimeout(function() {
+
+            window.location.href =
+            "index.html";
+
+        }, 1000);
+
+    } else {
+
+        button.disabled = false;
+
+        message.textContent =
+        "Account created! Please check your email to confirm your account.";
+
+    }
+
+});
+
+</script>
+
 </body>
 </html>
