@@ -135,5 +135,18 @@ button {
 
 </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://jlpfjutsnetxtjkqzzyo.supabase.co";
+
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpscGZqdXRzbmV0eHRqa3plenlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwNTMwOTAsImV4cCI6MjEwNjYyOTA5MH0.LcxrXD1fjBNs9jpXOyzzQ5kixqJi2WI7RH0IndHyfWE";
+
+const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+</script>
+    
 </body>
 </html>
