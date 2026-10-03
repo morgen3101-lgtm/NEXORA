@@ -3,11 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>NEXORA - Social Network</title>
 
 <style>
-
 * {
     margin: 0;
     padding: 0;
@@ -20,19 +18,14 @@ body {
     color: #222;
 }
 
-/* HEADER */
-
 header {
     height: 70px;
     background: white;
     border-bottom: 1px solid #ddd;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 0 25px;
-
     position: sticky;
     top: 0;
     z-index: 100;
@@ -51,224 +44,172 @@ header {
 .search input {
     width: 100%;
     padding: 12px 18px;
-
     border: none;
     outline: none;
-
     background: #f0f2f6;
     border-radius: 25px;
+}
+
+.auth {
+    display: flex;
+    gap: 8px;
+}
+
+.auth a,
+.auth button {
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
 }
 
 .login {
     background: #5b5cf0;
     color: white;
-
-    text-decoration: none;
-
-    padding: 11px 18px;
-    border-radius: 10px;
-
-    font-weight: bold;
 }
 
-/* MAIN */
+.signup {
+    background: #eee;
+    color: #333;
+}
+
+.logout {
+    display: none;
+    background: #e53935;
+    color: white;
+}
 
 .container {
     max-width: 1200px;
-
     margin: 30px auto;
-
     display: grid;
-
     grid-template-columns: 220px 1fr 250px;
-
     gap: 20px;
-
     padding: 0 20px;
 }
 
-/* SIDEBAR */
-
 .sidebar {
     background: white;
-
     padding: 15px;
-
     border-radius: 18px;
-
     height: fit-content;
 }
 
 .sidebar a {
     display: block;
-
     padding: 13px;
-
     margin-bottom: 5px;
-
     text-decoration: none;
-
     color: #555;
-
     border-radius: 10px;
 }
 
 .sidebar a:hover {
     background: #eeeeff;
-
     color: #5b5cf0;
 }
 
-/* CREATE POST */
-
 .card {
     background: white;
-
     padding: 20px;
-
     border-radius: 18px;
-
     margin-bottom: 20px;
 }
 
 textarea {
     width: 100%;
-
     min-height: 90px;
-
     border: none;
-
     outline: none;
-
     resize: none;
-
     background: #f2f3f7;
-
     border-radius: 12px;
-
     padding: 15px;
-
     margin-top: 15px;
 }
 
 button {
     border: none;
-
     background: #5b5cf0;
-
     color: white;
-
     padding: 11px 20px;
-
     border-radius: 10px;
-
     cursor: pointer;
-
     font-weight: bold;
-
     margin-top: 12px;
 }
 
-/* POSTS */
-
 .post {
     background: white;
-
     padding: 20px;
-
     border-radius: 18px;
-
     margin-bottom: 20px;
 }
 
 .user {
     display: flex;
-
     align-items: center;
-
     gap: 10px;
 }
 
 .avatar {
     width: 45px;
     height: 45px;
-
     border-radius: 50%;
-
     background: #5b5cf0;
-
     color: white;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     font-weight: bold;
 }
 
 .post-text {
     margin: 20px 0;
-
     line-height: 1.6;
 }
 
 .actions {
     border-top: 1px solid #eee;
-
     padding-top: 12px;
-
     display: flex;
-
     gap: 10px;
 }
 
 .action {
     background: transparent;
-
     color: #555;
-
     margin: 0;
 }
 
-.action:hover {
-    background: #f0f1f5;
-}
-
-/* RIGHT SIDEBAR */
-
 .right {
     background: white;
-
     padding: 20px;
-
     border-radius: 18px;
-
     height: fit-content;
 }
 
 .friend {
     display: flex;
-
     align-items: center;
-
     gap: 10px;
-
     margin-top: 18px;
 }
 
 .friend button {
     margin: 0;
-
     padding: 7px 10px;
-
     font-size: 12px;
 }
 
-/* MOBILE */
+#welcome {
+    display: none;
+    font-weight: bold;
+}
 
 @media (max-width: 900px) {
-
     .container {
         grid-template-columns: 180px 1fr;
     }
@@ -283,7 +224,6 @@ button {
 }
 
 @media (max-width: 650px) {
-
     header {
         padding: 0 12px;
     }
@@ -294,34 +234,25 @@ button {
 
     .container {
         display: block;
-
         padding: 12px;
-
         margin-top: 15px;
     }
 
     .sidebar {
         margin-bottom: 15px;
-
         display: flex;
-
         overflow-x: auto;
     }
 
     .sidebar a {
         white-space: nowrap;
-
         margin-right: 5px;
     }
 }
-
 </style>
 </head>
 
 <body>
-
-
-<!-- HEADER -->
 
 <header>
 
@@ -330,45 +261,239 @@ button {
     </div>
 
     <div class="search">
-
         <input
             type="text"
             id="search"
             placeholder="Search NEXORA..."
         >
-
     </div>
 
-<a
-    href="login.html"
-    class="login"
->
-    Log In
-</a>
+    <div class="auth">
+
+        <span id="welcome"></span>
+
+        <a href="login.html" class="login" id="loginBtn">
+            Log In
+        </a>
+
+        <a href="signup.html" class="signup" id="signupBtn">
+            Sign Up
+        </a>
+
+        <button class="logout" id="logoutBtn">
+            Log Out
+        </button>
+
+    </div>
 
 </header>
 
 
-<!-- MAIN -->
-
 <div class="container">
-
-
-    <!-- LEFT -->
 
     <aside class="sidebar">
 
-        <a href="#">
-            🏠 Home
-        </a>
+        <a href="#">🏠 Home</a>
+        <a href="#">👤 Profile</a>
+        <a href="#">👥 Friends</a>
+        <a href="#">💬 Messages</a>
+        <a href="#">🔔 Notifications</a>
+        <a href="#">⚙️ Settings</a>
 
-        <a href="#">
-            👤 Profile
-        </a>
+    </aside>
 
-        <a href="#">
-            👥 Friends
-        </a>
 
-        <a href="#">
-            💬 Messages
+    <main>
+
+        <div class="card">
+
+            <h3>Create a post</h3>
+
+            <textarea
+                id="postText"
+                placeholder="What's on your mind?"
+            ></textarea>
+
+            <button onclick="createPost()">
+                Post
+            </button>
+
+        </div>
+
+
+        <div class="post">
+
+            <div class="user">
+
+                <div class="avatar">
+                    N
+                </div>
+
+                <div>
+                    <strong>NEXORA</strong>
+                    <small>Public</small>
+                </div>
+
+            </div>
+
+            <div class="post-text">
+                Welcome to NEXORA! 🚀
+            </div>
+
+            <div class="actions">
+                <button class="action">❤️ Like</button>
+                <button class="action">💬 Comment</button>
+                <button class="action">↗️ Share</button>
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <aside class="right">
+
+        <h3>People you may know</h3>
+
+        <div class="friend">
+            <div class="avatar">A</div>
+            <span>Alex</span>
+            <button>+</button>
+        </div>
+
+        <div class="friend">
+            <div class="avatar">M</div>
+            <span>Mike</span>
+            <button>+</button>
+        </div>
+
+        <div class="friend">
+            <div class="avatar">S</div>
+            <span>Sarah</span>
+            <button>+</button>
+        </div>
+
+    </aside>
+
+</div>
+
+
+<!-- Supabase -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+"https://jlpfjutsnetxtjkqzzyo.supabase.co";
+
+const SUPABASE_KEY =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpscGZqdXRzbmV0eHRqa3plenlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwNTMwOTAsImV4cCI6MjEwNjYyOTA5MH0.LcxrXD1fjBNs9jpXOyzzQ5kixqJi2WI7RH0IndHyfWE";
+
+const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+const loginBtn =
+document.getElementById("loginBtn");
+
+const signupBtn =
+document.getElementById("signupBtn");
+
+const logoutBtn =
+document.getElementById("logoutBtn");
+
+const welcome =
+document.getElementById("welcome");
+
+
+async function checkUser() {
+
+    const { data } =
+    await supabase.auth.getSession();
+
+    if (data.session) {
+
+        const user =
+        data.session.user;
+
+        loginBtn.style.display = "none";
+        signupBtn.style.display = "none";
+
+        logoutBtn.style.display = "block";
+        welcome.style.display = "inline";
+
+        welcome.textContent =
+        "Hello, " + user.email;
+
+    } else {
+
+        loginBtn.style.display = "block";
+        signupBtn.style.display = "block";
+
+        logoutBtn.style.display = "none";
+        welcome.style.display = "none";
+
+    }
+}
+
+
+logoutBtn.addEventListener(
+"click",
+async function() {
+
+    await supabase.auth.signOut();
+
+    checkUser();
+
+});
+
+
+supabase.auth.onAuthStateChange(
+function(event, session) {
+
+    checkUser();
+
+});
+
+
+async function createPost() {
+
+    const text =
+    document.getElementById("postText").value.trim();
+
+    if (!text) {
+
+        alert("Write something first.");
+
+        return;
+    }
+
+    const { data } =
+    await supabase.auth.getSession();
+
+    if (!data.session) {
+
+        alert("Please log in first.");
+
+        window.location.href =
+        "login.html";
+
+        return;
+    }
+
+    alert(
+    "Post system is ready. We can connect posts to Supabase next."
+    );
+
+}
+
+
+checkUser();
+
+</script>
+
+</body>
+</html>
